@@ -1,4 +1,29 @@
 extends CharacterBody2D
 
-func _physics_process(delta: float) -> void:
-    pass
+@export var speed: float = 200.0
+
+var direction: float = 1.0
+var screen_size: Vector2
+
+func _ready() -> void:
+    screen_size = get_viewport_rect().size
+    # Random hướng: 1 (Trái sang Phải) hoặc -1 (Phải sang Trái)
+    direction = 1.0 if randf() > 0.5 else -1.0
+    
+    # Spawn ở ngoài rìa màn hình
+    var margin = 100.0
+    var spawn_y = randf_range(screen_size.y * 0.3, screen_size.y * 0.7)
+    var spawn_x = -margin if direction == 1.0 else screen_size.x + margin
+    
+    global_position = Vector2(spawn_x, spawn_y)
+
+func _physics_process(_delta: float) -> void:
+    # Di chuyển ngang
+    velocity.x = speed * direction
+    move_and_slide()
+    
+    # queue_free khi ra khỏi màn hình
+    var margin = 150.0
+    if (direction == 1.0 and global_position.x > screen_size.x + margin) or \
+       (direction == -1.0 and global_position.x < -margin):
+        queue_free()

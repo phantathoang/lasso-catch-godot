@@ -1,3 +1,14 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://b5fkooxqbsl07"]
 
-[node name="LevelBase" type="Node2D"]
+[ext_resource type="PackedScene" path="res://entities/player/player.tscn" id="1_player"]
+[ext_resource type="Script" uid="uid://dx45ruvyqgwfx" path="res://levels/spawner.gd" id="2_spawner"]
+[ext_resource type="PackedScene" path="res://entities/cow/cow.tscn" id="3_cow"]
+
+[node name="LevelBase" type="Node2D" unique_id=562787889]
+
+[node name="Player" parent="." unique_id=488376733 instance=ExtResource("1_player")]
+position = Vector2(576, 550)
+
+[node name="Spawner" type="Node2D" parent="." unique_id=558013402]
+script = ExtResource("2_spawner")
+cow_scene = ExtResource("3_cow")
